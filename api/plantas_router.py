@@ -1,10 +1,13 @@
 from fastapi import APIRouter
+from models.schemas import ImageRequest
+from services.roboflow_service import detectar_planta_service
 
 router = APIRouter(prefix="/plantas", tags=["Plantas"])
 
 @router.post("/identificar")
-async def identificar_planta():
+async def identificar_planta(request: ImageRequest):
     """
-    Endpoint asignado al Dev 2.
+    Endpoint para identificar una planta usando la imagen en base64.
     """
-    return {"status": "en_desarrollo", "message": "Identificación de plantas (Dev 2)"}
+    resultado = await detectar_planta_service(request.image_base64)
+    return resultado
