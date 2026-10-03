@@ -1,6 +1,9 @@
 from services.roboflow_service import detect_plaga
-from services.rapidapi_service import get_weather
 from models.schemas import PlagaDetectionResult
+
+async def get_weather(lat: float, lon: float) -> dict:
+    # Dummy implementation since rapidapi_service no longer has it
+    return {"current": {"humidity": 75, "temp_c": 22}}
 
 def calcular_riesgo_y_recomendacion(plaga: str, clima: dict) -> tuple[str, str]:
     """
