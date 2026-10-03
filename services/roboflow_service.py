@@ -9,11 +9,13 @@ from inference_sdk import InferenceHTTPClient, InferenceConfiguration
 # ==========================================
 # CLIENTE ROBOFLOW (Compartido)
 # ==========================================
-# Usamos tu API Key y la configuración por Header
-ROBOFLOW_API_KEY = os.environ.get("ROBOFLOW_API_KEY", "WgUGBjxzVMS2lSPpijaR")
+ROBOFLOW_API_KEY = os.environ.get("ROBOFLOW_API_KEY", settings.ROBOFLOW_API_KEY)
+ROBOFLOW_API_URL = os.environ.get("ROBOFLOW_API_URL", settings.ROBOFLOW_API_URL)
+ROBOFLOW_WORKSPACE = os.environ.get("ROBOFLOW_WORKSPACE", settings.ROBOFLOW_WORKSPACE)
+ROBOFLOW_WORKFLOW_ID = os.environ.get("ROBOFLOW_WORKFLOW_ID", settings.ROBOFLOW_WORKFLOW_ID)
 
 roboflow_client = InferenceHTTPClient(
-    api_url="https://serverless.roboflow.com",
+    api_url=ROBOFLOW_API_URL,
     api_key=ROBOFLOW_API_KEY
 ).configure(InferenceConfiguration(
     api_key_transport="header"
@@ -36,8 +38,8 @@ async def detect_plaga(image_base64: str) -> dict:
 def _run_planta_workflow_sync(ruta_imagen: str) -> dict:
     """Ejecuta el workflow de manera síncrona usando la SDK."""
     return roboflow_client.run_workflow(
-        workspace_name="elias-hernandez",
-        workflow_id="plant-identification-1790985245248",
+        workspace_name=ROBOFLOW_WORKSPACE,
+        workflow_id=ROBOFLOW_WORKFLOW_ID,
         images={"image": ruta_imagen},
         use_cache=True
     )
